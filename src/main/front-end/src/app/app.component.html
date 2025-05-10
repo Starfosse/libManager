@@ -1,0 +1,29 @@
+<main>
+  <div class="container">
+    <div [ngSwitch]="homePage.page" class="content">
+      <app-home (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'Accueil'"/>
+      <app-library (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'Bibliothèque'"/>
+      <app-reservations (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'Réservations'"/>
+      <app-profil (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'Profil'"/>
+      <app-book-gallery (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'Popularity'"
+                        [galleryType]="homePage.page"/>
+      <app-book-gallery (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'New'"
+                        [galleryType]="homePage.page"/>
+      <app-book-detail (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'BookDetail'"
+                       [bookId]="homePage.selectedBookId" [from]="homePage.from!"/>
+      <app-order-details (bookingEmitter)="handleBooking($event)" (homePageEmitter)="handleHomePage($event)"
+                         *ngSwitchCase="'OrderDetails'"
+                         [bookId]="homePage.selectedBookId" [from]="homePage.from!"></app-order-details>
+      <app-paiement (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'Paiement'"
+                    [bookId]="homePage.selectedBookId"
+                    [booking]="booking"
+                    [from]="homePage.from!"
+      />
+      <app-confirmation (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'Confirmation'"
+                        [bookId]="homePage.selectedBookId"/>
+    </div>
+    <app-footer (homePageEmitter)="handleHomePage($event)" [homePage]="homePage"/>
+  </div>
+</main>
+
+<router-outlet/>

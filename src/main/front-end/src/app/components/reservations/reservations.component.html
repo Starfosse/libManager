@@ -1,0 +1,67 @@
+<app-back-to [backToHome]="handleBackToHome">Mes réservations</app-back-to>
+<div class="tabs">
+  <button (click)="handleChooseTab('Actives')"
+          [ngClass]="{'active': currentTab === 'Actives', 'inactive': currentTab !== 'Actives'}">Actives
+  </button>
+  <button (click)="handleChooseTab('Historique')"
+          [ngClass]="{'active': currentTab === 'Historique', 'inactive': currentTab !== 'Historique'}">Historiques
+  </button>
+  <button (click)="handleChooseTab('Annulées')"
+          [ngClass]="{'active': currentTab === 'Annulées', 'inactive': currentTab !== 'Annulées'}">Annulées
+  </button>
+</div>
+<div [ngSwitch]="currentTab">
+  <div *ngSwitchCase="'Actives'">
+    <div class="card-reservation">
+      <div class="header-reservation-card"><span>Réservation #2581</span><span class="state-card">Confirmée</span></div>
+      <div (click)="handleShowBook(1)" class="body-reservation-card">
+        <img alt="" src="">
+        <div class="body-reservation-card-infos">
+          <div class="body-reservation-card-infos-title">
+            <span style="font-weight: bold; font-size: large;">Les misérables</span>
+            <span style="color:#BEC1C8;">Victor Hugo</span></div>
+          <div style="display: flex; gap: 1rem;">
+            <div style="display:flex; flex-direction: column;"><span style="color:#BEC1C8;">Date de retrait</span><span
+            >12 mai 2025</span></div>
+            <div style="display:flex; flex-direction: column;"><span
+              style="color:#BEC1C8;">Durée</span><span>2 semaines</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-reservation-card">
+        <button class="cancel-card-button">Annuler</button>
+        <button class="qr-code-card-button">Voir le QR Code</button>
+      </div>
+    </div>
+  </div>
+  <div *ngSwitchCase="'Historique'">
+    <div class="card-reservation">
+      <div class="header-reservation-card"><span>Réservation #2581</span><span
+        class="state-card-completed">Complétée</span></div>
+      <div (click)="handleShowBook(1)" class="body-reservation-card">
+        <img alt="" src="">
+        <div class="body-reservation-card-infos">
+          <div class="body-reservation-card-infos-title">
+            <span style="font-weight: bold; font-size: large;">Les misérables</span>
+            <span style="color:#BEC1C8;">Victor Hugo</span></div>
+          <div style="display: flex; gap: 1rem;">
+            <div style="display:flex; flex-direction: column;"><span style="color:#BEC1C8;">Date de retrait</span><span
+            >12 mai 2025</span></div>
+            <div style="display:flex; flex-direction: column;"><span
+              style="color:#BEC1C8;">Durée</span><span>2 semaines</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-reservation-card">
+        <button class="reserve-again-card-button">Réserver à nouveau</button>
+      </div>
+    </div>
+  </div>
+  <div *ngSwitchCase="'Annulées'">
+    <div class="reservation-canceled-card">
+      <fa-icon [icon]="faCalendar"></fa-icon>
+      <h2>Aucune réservation annulée</h2>
+      <span>Vous n'avez pas de réservations annulées pour le moment</span>
+    </div>
+  </div>
+</div>

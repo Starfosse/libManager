@@ -1,0 +1,100 @@
+.confirmation-success {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.confirmation-success fa-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  background-color: #DCFCE7;
+  color: #28AB58;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.qr-code {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.qr-code img {
+  width: 200px;
+  height: 200px;
+}
+
+.reservation-details {
+  display: flex;
+  gap: 1rem;
+}
+
+.reservation-details img {
+  width: 100px;
+  height: 150px;
+  border-radius: 10px;
+}
+
+.reservation-details div {
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.reservation-details-time {
+  border-top: 1px solid #c3bebe;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.reservation-details-time div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.instructions {
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: #EFF6FF;
+  color: #6184E4;
+  border: 1px solid #C8E0FE;
+}
+
+.btns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn-check {
+  flex: 1;
+  background-color: #2563EB;
+  color: white;
+  padding: 1rem 1rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.2rem;
+}
+
+.btn-add {
+  flex: 1;
+  background-color: #E5E7EB;
+  color: black;
+  padding: 1rem 1rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.2rem;
+}

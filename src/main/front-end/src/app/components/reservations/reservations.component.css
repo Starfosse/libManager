@@ -1,0 +1,134 @@
+.tabs {
+  display: flex;
+  height: 3rem;
+  border-radius: 10px;
+  background-color: #F3F4F6;
+  padding: 0.2rem;
+  margin: 1rem 0;
+}
+
+.tabs button {
+  flex: 1;
+  border: none;
+  cursor: pointer;
+}
+
+.card-reservation {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  gap: 1rem;
+}
+
+.state-card {
+  background-color: #DCFCE7;
+  color: #A3D1B4;
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+}
+
+.state-card-completed {
+  background-color: #E2EEFD;
+  color: #637AC7;
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+}
+
+.header-reservation-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: -0.5rem;
+}
+
+.body-reservation-card {
+  display: flex;
+  gap: 1rem;
+}
+
+.body-reservation-card img {
+  width: 100px;
+  height: 150px;
+  border-radius: 10px;
+}
+
+.body-reservation-card-infos {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  font-size: 1.2rem;
+  padding-top: 0.8rem;
+}
+
+.body-reservation-card-infos-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.footer-reservation-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #c3bebe;
+  padding-top: 1rem;
+}
+
+.footer-reservation-card button {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: none;
+}
+
+.cancel-card-button {
+  background-color: white;
+  color: gray;
+  outline: 1px solid gray;
+}
+
+.qr-code-card-button {
+  background-color: #2563EB;
+  color: white;
+}
+
+.reserve-again-card-button {
+  background-color: #79a9e1;
+  color: white;
+  display: inline-flex;
+  justify-self: flex-end;
+}
+
+.reservation-canceled-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.reservation-canceled-card fa-icon {
+  height: 4rem;
+  width: 4rem;
+  font-size: 3rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: #eef1ee;
+  color: #a6a3a3;
+  margin-top: 2rem;
+}
+
+.active {
+  border-radius: 10px;
+  background-color: #2563EB;
+  color: white;
+}
+
+.inactive {
+  background-color: #F3F4F6;
+}

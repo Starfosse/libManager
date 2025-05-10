@@ -11,7 +11,7 @@ public class Loan {
     private LocalDate effectiveReturnDate;
     private LoanStatus loanStatus;
 
-    public Loan(){
+    public Loan() {
     }
 
     public Loan(Long bookId, Long userId, LocalDate loanDate) {
@@ -72,6 +72,6 @@ public class Loan {
 
     @Override
     public String toString() {
-        return "Loan{" + "id=" + id + ", bookId=" + bookId + ", userId=" + userId + ", loanDate=" + loanDate + ", returnDate=" + returnDate + ", loanStatus=" + loanStatus + '}';
+        return "Loan{" + "id=" + id + ", bookId=" + bookId + ", userId=" + userId + ", loanDate=" + loanDate + ", " + "returnDate=" + returnDate + ", loanStatus=" + loanStatus + '}';
     }
 }

@@ -1,0 +1,30 @@
+<app-back-to [backToHome]="handleBackToHome">Paiement</app-back-to>
+<app-card>
+  <div>Moyen de paiement</div>
+  <div class="card-payment">
+    <fa-icon [icon]="faCreditCard"></fa-icon>
+    <div>
+      <span>Carte Visa</span>
+      <span style="color:var(--primary-text-gray);">**** **** **** 5678</span>
+    </div>
+  </div>
+  <div class="card-payment">
+    <fa-icon [icon]="faCreditCard"></fa-icon>
+    <span>Ajouter une nouvelle carte</span>
+  </div>
+</app-card>
+<app-card>
+  <div>Code promo</div>
+  <div class="card-promo">
+    <input placeholder="Entrez votre code" type="text">
+    <button>Appliquer</button>
+  </div>
+</app-card>
+<app-card>
+  <div>Récapitulatif</div>
+  <div class="recap-card" style="padding-bottom:0.8rem;border-bottom: 1px solid #d6d6d6 "><span
+    style="color:var(--primary-text-gray);font-size:1rem;">Location 2 semaines</span><span>5.00€</span></div>
+  <div class="recap-card"><span>Total à payer</span><span>5.00€</span></div>
+</app-card>
+<app-btn [onClick]="handlePaiement">Payer 5.00€</app-btn>
+<span class="paiement-secured-card">Paiement sécurisé</span>

@@ -1,0 +1,45 @@
+.card-presentation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.card-presentation h2 {
+  margin-bottom: 0.2rem;
+  font-weight: bold;
+}
+
+
+.card-informations {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-informations-list {
+  background-color: #F3F4F6;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: 10px;
+  gap: 0.7rem;
+}
+
+.card-informations-list div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-presentation-stars {
+  display: flex;
+  gap: 0.1rem;
+}
+
+.card-informations-list div span:first-child {
+  color: gray
+}
+
+.card-informations-list div:first-child span:last-child {
+  color: green;
+}
