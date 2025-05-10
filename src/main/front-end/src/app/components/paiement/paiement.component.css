@@ -1,0 +1,58 @@
+.card-payment {
+  display: flex;
+  border-radius: 10px;
+  flex: 1;
+  padding: 1rem;
+  border: 1px solid #7e7e7e;
+}
+
+.card-payment div {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-promo {
+  display: flex;
+  height: 3rem;
+  width: 100%;
+}
+
+.card-promo input {
+  flex: 1;
+  padding: 0 1rem;
+  border-radius: 10px 0 0 10px;
+  border: 1px solid var(--primary-separation-bar);
+  outline: none;
+  font-size: 1.1rem;
+  color: var(--primary-text-gray);
+}
+
+.card-promo button {
+  border: none;
+  border-radius: 0 10px 10px 0;
+  padding: 0 1rem;
+  font-size: 1.3rem;
+  color: white;
+  background-color: #1F2937;
+}
+
+.card-payment fa-icon {
+  margin-right: 1rem;
+  display: inline-flex;
+  align-items: center;
+  color: var(--primary-text-gray);
+}
+
+.recap-card {
+  display: flex;
+  justify-content: space-between;
+}
+
+.paiement-secured-card {
+  display: inline-flex;
+  width: 100%;
+  padding-top: 1rem;
+  justify-content: center;
+  color: var(--primary-text-gray);
+  font-size: 1rem;
+}

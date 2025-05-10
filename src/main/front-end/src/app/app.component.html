@@ -1,84 +1,29 @@
-<main [ngSwitch]="showBook" class="container">
-  <div *ngSwitchCase="false" class="content">
-    <div class="header">
-      <div class="header-left">
-        <fa-icon [icon]="faBook" style="color:#3B82F6;"></fa-icon>
-        <h1>LibManager</h1>
-      </div>
-      <div class="header-right">
-        <fa-icon [icon]="faBell"></fa-icon>
-        <span>JP</span>
-      </div>
+<main>
+  <div class="container">
+    <div [ngSwitch]="homePage.page" class="content">
+      <app-home (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'Accueil'"/>
+      <app-library (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'Bibliothèque'"/>
+      <app-reservations (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'Réservations'"/>
+      <app-profil (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'Profil'"/>
+      <app-book-gallery (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'Popularity'"
+                        [galleryType]="homePage.page"/>
+      <app-book-gallery (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'New'"
+                        [galleryType]="homePage.page"/>
+      <app-book-detail (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'BookDetail'"
+                       [bookId]="homePage.selectedBookId" [from]="homePage.from!"/>
+      <app-order-details (bookingEmitter)="handleBooking($event)" (homePageEmitter)="handleHomePage($event)"
+                         *ngSwitchCase="'OrderDetails'"
+                         [bookId]="homePage.selectedBookId" [from]="homePage.from!"></app-order-details>
+      <app-paiement (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'Paiement'"
+                    [bookId]="homePage.selectedBookId"
+                    [booking]="booking"
+                    [from]="homePage.from!"
+      />
+      <app-confirmation (homePageEmitter)="handleHomePage($event)" *ngSwitchCase="'Confirmation'"
+                        [bookId]="homePage.selectedBookId"/>
     </div>
-    <input class="search-bar" placeholder="Rechercher un livre, un auteur ..."/>
-    <div>
-      <h2>Catégories</h2>
-      <div class="categories-row">
-        <div *ngFor="let item of categories; trackBy: trackByFn" class="item">
-          {{ item.name }}
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="header-popularity">
-        <h2>Livres Populaires</h2>
-        <div>Voir tout ⮕</div>
-      </div>
-    </div>
-    <div class="grid-popularity">
-      <div (click)="handleShowBook(item.id)" *ngFor="let item of books; trackBy: trackByFn" class="card-popularity">
-        <img alt="" src="">
-        <span> {{ item.title }}</span>
-        <span style="color:gray; font-size:0.9rem;">{{ item.author }}</span>
-        <span><fa-icon [icon]="faStar" style="color:#F6B400;"></fa-icon>
-          {{ item.reviewsRate }}</span>
-      </div>
-    </div>
-    <div class="header-new">
-      <h2>Nouveautés</h2>
-      <div>Voir tout ⮕</div>
-    </div>
-    <div class="list-new">
-      <div *ngFor="let item of books; trackBy: trackByFn" class="card-new">
-        <img alt="" src="">
-        <span> {{ item.title }}</span>
-        <span>{{ item.author }}</span>
-      </div>
-    </div>
-  </div>
-  <div *ngSwitchCase="true" class="content">
-    <div (click)="handleShowHome()" class="header-book-featured">
-      ⬅ Détails du livre
-    </div>
-    <div class="card-presentation">
-      <img alt="" src=""/>
-      <h2>{{ bookDisplayed?.title }}</h2>
-      <span>par {{ bookDisplayed?.author }}</span>
-      <div class="card-presentation-stars">
-        <fa-icon *ngFor="let star of getStarsArray(bookDisplayed!.reviewsRate)" [icon]="faStar"
-                 style="color:#F6B400;"></fa-icon>
-        <fa-icon *ngFor="let star of getEmptyStarsArray(bookDisplayed!.reviewsRate)" [icon]="farStar"
-                 style="color:#F6B400;"></fa-icon>
-        <span>{{ bookDisplayed!.reviewsRate }}</span>
-      </div>
-    </div>
-    <div class="card-description">
-      <h2>Description</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, justo vel bibendum sagittis, nisl nunc
-        aliquet nunc, vitae aliquam nisl nunc vel nisl. Sed euismod, justo vel bibendum sagittis, nisl nunc aliquet
-        nunc, vitae aliquam nisl nunc vel nisl.</p>
-    </div>
-    <div class="card-informations">
-      <h2>Informations</h2>
-      <div class="card-informations-list">
-        <div><span>Disponibilité</span> <span>En stock(3)</span></div>
-        <div><span>Catégorie</span> <span>Classique</span></div>
-        <div><span>Pages</span> <span>378</span></div>
-        <div><span>Langue</span> <span>Français</span></div>
-      </div>
-    </div>
+    <app-footer (homePageEmitter)="handleHomePage($event)" [homePage]="homePage"/>
   </div>
 </main>
 
 <router-outlet/>
-<!--{{ books[showBookId - 1].title }}-->

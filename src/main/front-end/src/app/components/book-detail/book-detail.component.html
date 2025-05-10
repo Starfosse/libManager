@@ -1,0 +1,30 @@
+<app-back-to [backToHome]="handleBackToHome">
+  Détails du livre
+</app-back-to>
+<div class="card-presentation">
+  <img alt="" src=""/>
+  <h2>{{ books[bookId].title }}</h2>
+  <span>par {{ books[bookId].author }}</span>
+  <div class="card-presentation-stars">
+    <fa-icon *ngFor="let star of getStarsArray(books[bookId].reviewsRate)" [icon]="faStar"
+             style="color:#F6B400;"></fa-icon>
+    <fa-icon *ngFor="let star of getEmptyStarsArray(books[bookId].reviewsRate)" [icon]="farStar"
+             style="color:#F6B400;"></fa-icon>
+    <span>{{ books[bookId]!.reviewsRate }}</span>
+  </div>
+</div>
+<div class="card-description">
+  <h2>Description</h2>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, justo vel bibendum sagittis, nisl nunc
+    aliquet nunc, vitae aliquam nisl nunc vel nisl. Sed euismod, justo vel bibendum sagittis, nisl nunc aliquet
+    nunc, vitae aliquam nisl nunc vel nisl.</p>
+</div>
+<div class="card-informations">
+  <h2>Informations</h2>
+  <div class="card-informations-list">
+    <div><span>Disponibilité</span> <span>En stock(3)</span></div>
+    <div><span>Catégorie</span> <span>Classique</span></div>
+    <div><span>Pages</span> <span>378</span></div>
+    <div><span>Langue</span> <span>Français</span></div>
+  </div>
+</div>

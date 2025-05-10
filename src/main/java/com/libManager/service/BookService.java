@@ -1,18 +1,18 @@
 package com.libManager.service;
 
-import com.libManager.model.Book;
 import com.libManager.dao.BookDAO;
+import com.libManager.model.Book;
 
 import java.util.List;
 import java.util.Optional;
 
 public class BookService {
 
-    private final BookDAO bookDAO;
-
     public BookService() {
         this.bookDAO = new BookDAO();
     }
+
+    private final BookDAO bookDAO;
 
     public List<Book> getAllBooks() {
         return bookDAO.findAll();
@@ -33,11 +33,9 @@ public class BookService {
 
     public Book updateBook(long id, Book book) {
         validateBook(book);
-
         if (!bookDAO.existsById(id)) {
             throw new RuntimeException("Livre non trouvé avec l'ID: " + id);
         }
-
         book.setId(id);
         return bookDAO.update(book);
     }
@@ -46,7 +44,6 @@ public class BookService {
         if (!bookDAO.existsById(id)) {
             throw new RuntimeException("Livre non trouvé avec l'ID: " + id);
         }
-
         bookDAO.deleteById(id);
     }
 

@@ -1,0 +1,58 @@
+.book-details-card {
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #c3bebe;
+}
+
+.book-details-card img {
+  width: 100px;
+  height: 150px;
+  border-radius: 10px;
+}
+
+.book-details-card div {
+  display: flex;
+  flex-direction: column;
+}
+
+.duration-slider {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.duration-slider div {
+  flex: 1;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  border: 1px solid #c3bebe;
+  text-align: center;
+}
+
+.date-time-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #c3bebe;
+}
+
+.date-time-picker select {
+  width: 100%;
+  background-color: white;
+  outline: none;
+  height: 3rem;
+  border-radius: 5px;
+  border: 1px solid #c3bebe;
+  padding: 0 1rem;
+}
+
+.order-summary div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+

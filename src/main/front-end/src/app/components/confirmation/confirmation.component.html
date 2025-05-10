@@ -1,0 +1,41 @@
+<app-back-to [backToHome]="handleBackToHome">Réservation confirmée</app-back-to>
+<div class="confirmation-success">
+  <fa-icon [icon]="faCheck"></fa-icon>
+  <div style="font-weight: bold;font-size: 1.2rem;">Réservation réussie !</div>
+  <span>Votre réservation a été confirmée</span>
+</div>
+<app-card>
+  <div>QR Code de réservation</div>
+  <div class="qr-code">
+    <img alt="" src="">
+    <span>Réservation #2581</span>
+    <span style="color:var(--primary-blue)">Copier le code</span>
+  </div>
+</app-card>
+<app-card>
+  <div>Détails de la réservation</div>
+  <div class="reservation-details">
+    <img alt="" src="">
+    <div>
+      <span style="font-size: 1.1rem; font-weight:bold;">Les misérables</span><span
+      style="color:var(--primary-text-gray)">Victor Hugo</span>
+    </div>
+  </div>
+  <div class="reservation-details-time">
+    <div><span style="color:var(--primary-text-gray)">Date de retrait</span><span>12 Mai 2025, 14:00</span></div>
+    <div><span style="color:var(--primary-text-gray)">Durée</span><span>2 semaines</span></div>
+    <div><span style="color:var(--primary-text-gray)">Date de retour</span><span>26 Mai 2025</span></div>
+    <div><span style="color:var(--primary-text-gray)">Montant payé</span><span>5.00€</span></div>
+  </div>
+</app-card>
+<div class="instructions">
+  <div style="font-weight: bold; margin-bottom: 0.5rem;">Instructions de retrait</div>
+  <div>
+    Présentez le QR code à l'accueil de la bibliothèque lors de votre retrait. N'oubliez pas d'apporter une pièce
+    d'identité.
+  </div>
+</div>
+<div class="btns">
+  <button class="btn-add">Ajouter au calendrier</button>
+  <button (click)="handleGoToReservations()" class="btn-check">Voir mes réservations</button>
+</div>

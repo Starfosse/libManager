@@ -27,9 +27,7 @@ public class Book {
         this.totalCopies = 1;
     }
 
-    public Book(Long id, String title, String author, String isbn, String publisher,
-                LocalDate publicationDate, String category, String description,
-                int totalCopies, int availableCopies) {
+    public Book(Long id, String title, String author, String isbn, String publisher, LocalDate publicationDate, String category, String description, int totalCopies, int availableCopies) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -157,12 +155,6 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", isbn='" + isbn + '\'' +
-                ", available=" + isAvailable() +
-                '}';
+        return "Book{" + "id=" + id + ", title='" + title + '\'' + ", author='" + author + '\'' + ", isbn='" + isbn + '\'' + ", available=" + isAvailable() + '}';
     }
 }

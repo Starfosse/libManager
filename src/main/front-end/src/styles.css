@@ -1,1 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid red;
+  overflow: hidden;
+  font-family: Arial;
+}
+
+.content {
+  background-color: #F9FAFB;
+  height: 100%;
+  width: 28rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  overflow: auto;
+}
+
+:root {
+  --primary-blue: #2563EB;
+  --primary-separation-bar: #7e7e7e;
+  --primary-bg-icon: #b3b8c1;
+  --primary-text-gray: #4B5563;
+}

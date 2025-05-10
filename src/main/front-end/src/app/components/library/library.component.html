@@ -1,0 +1,21 @@
+<app-back-to [backToHome]="handleBackToHome">Ma bibliothèque</app-back-to>
+<div class="tabs">
+  <button (click)="handleChooseTab('En cours')"
+          [ngClass]="{'active': currentTab === 'En cours', 'inactive': currentTab !== 'En cours'}">En cours
+  </button>
+  <button (click)="handleChooseTab('Historique')"
+          [ngClass]="{'active': currentTab === 'Historique', 'inactive': currentTab !== 'Historique'}">Historique
+  </button>
+</div>
+<div>
+  <div (click)="handleShowBook(1)" class="card-book">
+    <img alt="" src=""/>
+    <div class="card-book-infos">
+      <span>Titre du livre</span>
+      <span style="color:gray; font-size: 0.9rem">Auteur</span>
+      <span style="font-size:0.7rem;"><fa-icon [icon]="faStar" style="color:#F6B400;"></fa-icon> 4,6</span>
+      <span style="color:gray; font-size: 0.8rem">Retour prévu</span>
+      <span style="color:red">15 mai 2025</span>
+    </div>
+  </div>
+</div>
