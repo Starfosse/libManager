@@ -37,6 +37,7 @@ export const categories: Category[] = [
 export class BookService {
   private readonly apiUrl = "https://libmanager.onrender.com/api/books";
 
+  
   private booksSubject = new BehaviorSubject<Book[]>([]);
   public books$ = this.booksSubject.asObservable();
 
