@@ -3,6 +3,7 @@ package com.libManager.model;
 import java.time.LocalDate;
 
 public enum LoanStatus {
+    ACCEPTED("Accepté"),
     BORROWED("Emprunté"),
     RETURNED("Retourné"),
     OVERDUE("En retard");
@@ -21,12 +22,12 @@ public enum LoanStatus {
         return this == RETURNED;
     }
 
-    public boolean isBookOut(){
+    public boolean isBookOut() {
         return this == BORROWED || this == RETURNED;
     }
 
     public static LoanStatus determineLoanStatus(LocalDate returnDeadLine) {
-        if(LocalDate.now().isAfter(returnDeadLine)) {
+        if (LocalDate.now().isAfter(returnDeadLine)) {
             return OVERDUE;
         }
         return BORROWED;
