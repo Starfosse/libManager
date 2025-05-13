@@ -16,7 +16,7 @@ export interface Loan {
   providedIn: 'root'
 })
 export class LoanService {
-  private readonly apiUrl = 'http://localhost:8080/api/loan';
+  private readonly apiUrl = 'https://libmanager.onrender.com/api/loan';
   private loansSubject = new BehaviorSubject<Loan[]>([]);
   public loans$ = this.loansSubject.asObservable();
 
