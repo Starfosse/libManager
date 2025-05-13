@@ -2,26 +2,26 @@
 </app-back-to>
 <app-card class="order-details">
   <div class="book-details-card">
-    <img alt="" src="">
+    <img [src]="getBookImage(homePage().book!.title)" alt="">
     <div>
-      <div>Les misérables</div>
-      <div style="color:gray; margin-top: 0.3rem;">Victor Hugo</div>
-      <div style="color:blue; margin-top:1rem">2.5€ / semaine</div>
+      <div>{{ homePage().book?.title }}</div>
+      <div style="color:gray; margin-top: 0.3rem;">{{ homePage().book?.author }}</div>
+      <div style="color:blue; margin-top:1rem">{{ homePage().book?.price }}€ / semaine</div>
     </div>
   </div>
   <div>
     <span>Durée de location</span>
     <div class="duration-slider">
-      <div (click)="handleWeekLocationChange(1)">1 sem.</div>
-      <div (click)="handleWeekLocationChange(2)">2 sem.</div>
-      <div (click)="handleWeekLocationChange(3)">3 sem.</div>
-      <div (click)="handleWeekLocationChange(4)">4 sem.</div>
+      <div (click)="handleWeekLocationChange(1)" [ngClass]="{'active' :booking().weekLocation === 1}">1 sem.</div>
+      <div (click)="handleWeekLocationChange(2)" [ngClass]="{'active' :booking().weekLocation === 2}">2 sem.</div>
+      <div (click)="handleWeekLocationChange(3)" [ngClass]="{'active' :booking().weekLocation === 3}">3 sem.</div>
+      <div (click)="handleWeekLocationChange(4)" [ngClass]="{'active' :booking().weekLocation === 4}">4 sem.</div>
     </div>
   </div>
   <div class="date-time-picker">
     <span>Date et heure de retrait</span>
-    <select>
-      <option (change)="handleDayChange($event)" *ngFor="let day of days" [value]="day">{{ day }}</option>
+    <select (change)="handleDayChange($event)">
+      <option *ngFor="let day of days" [value]="day.value">{{ day.display }}</option>
     </select>
     <select (change)="handleTimeChange($event)">
       <option selected value="10:00">10:00</option>
@@ -34,7 +34,9 @@
 </app-card>
 <app-card class="order-summary">
   <span>Récapitulatif</span>
-  <div><span style="color:gray;">Les misérables</span><span>2.5€ x 2sem</span></div>
-  <div style="border-top: 1px solid #c3bebe; padding-top:0.7rem;"><span>Total</span><span>5.00€</span></div>
+  <div><span style="color:gray;">{{ homePage().book?.title }}</span><span>{{ homePage().book?.price }}
+    € x {{ booking().weekLocation }} sem</span></div>
+  <div style="border-top: 1px solid #c3bebe; padding-top:0.7rem;">
+    <span>Total</span><span>{{ (homePage().book!.price * booking().weekLocation).toFixed(2) }}€</span></div>
 </app-card>
 <app-btn [onClick]="handlePaiement">Procéder au paiement</app-btn>

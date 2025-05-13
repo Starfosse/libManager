@@ -24,17 +24,28 @@
 }
 
 .state-card {
-  background-color: #DCFCE7;
-  color: #A3D1B4;
   padding: 0.4rem 0.8rem;
   border-radius: 5px;
 }
 
-.state-card-completed {
+.returned {
   background-color: #E2EEFD;
   color: #637AC7;
-  padding: 0.4rem 0.8rem;
-  border-radius: 5px;
+}
+
+.accepted {
+  background-color: #DCFCE7;
+  color: #A3D1B4;
+}
+
+.overdue {
+  background-color: #FDE7E7;
+  color: #E53E3E;
+}
+
+.borrowed {
+  background-color: #91bda0;
+  color: #5b8a6c;
 }
 
 .header-reservation-card {
@@ -131,4 +142,10 @@
 
 .inactive {
   background-color: #F3F4F6;
+}
+
+.card-reservation-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }

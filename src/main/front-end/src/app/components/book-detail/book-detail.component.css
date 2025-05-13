@@ -43,3 +43,9 @@
 .card-informations-list div:first-child span:last-child {
   color: green;
 }
+
+img {
+  object-fit: cover;
+  object-position: center;
+  height: 20rem;
+}

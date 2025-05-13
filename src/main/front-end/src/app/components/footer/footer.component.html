@@ -1,20 +1,21 @@
-<div class="footer">
-  <div *ngIf="homePage.footerState === 'Tabs'" class="container-footer-tabs">
-    <div (click)="handleChooseTab('Accueil')" [ngClass]="{'active': homePage.page === 'Accueil'}">
+<div [ngSwitch]="homePage().footerState" class="footer">
+  <div *ngSwitchCase="'Tabs'" class="container-footer-tabs">
+    <div (click)="handleChooseTab('Accueil')" [ngClass]="{'active': homePage().page === 'Accueil'}">
       <fa-icon [icon]="faHome"></fa-icon>
       <span>Accueil</span></div>
-    <div (click)="handleChooseTab('Bibliothèque')" [ngClass]="{'active' : homePage.page === 'Bibliothèque'}">
+    <div (click)="handleChooseTab('Bibliothèque')" [ngClass]="{'active' : homePage().page === 'Bibliothèque'}">
       <fa-icon [icon]="faBookOpen"></fa-icon>
       <span>Bibliothèque</span></div>
-    <div (click)="handleChooseTab('Réservations')" [ngClass]="{'active' : homePage.page === 'Réservations'}">
+    <div (click)="handleChooseTab('Réservations')" [ngClass]="{'active' : homePage().page === 'Réservations'}">
       <fa-icon [icon]="faCalendar"></fa-icon>
       <span>Réservations</span></div>
-    <div (click)="handleChooseTab('Profil')" [ngClass]="{'active' : homePage.page === 'Profil'}">
+    <div (click)="handleChooseTab('Profil')" [ngClass]="{'active' : homePage().page === 'Profil'}">
       <fa-icon [icon]="faUser"></fa-icon>
       <span>Profil</span></div>
   </div>
-  <div *ngIf="homePage.footerState === 'Booking'" class="container-footer-location">
-    <div><span style="font-size:0.8rem;">Prix de la location</span><span> <span style="font-weight: bold">2,50 €</span> / semaine</span>
+  <div *ngSwitchCase="'Booking'" class="container-footer-location">
+    <div><span style="font-size:0.8rem;">Prix de la location</span><span> <span
+      style="font-weight: bold">{{ getPriceFromHomePageBook() }} €</span> / semaine</span>
     </div>
     <button (click)="handleBooking()">Réserver maintenant</button>
   </div>

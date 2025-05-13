@@ -11,49 +11,60 @@
   </button>
 </div>
 <div [ngSwitch]="currentTab">
-  <div *ngSwitchCase="'Actives'">
-    <div class="card-reservation">
-      <div class="header-reservation-card"><span>Réservation #2581</span><span class="state-card">Confirmée</span></div>
-      <div (click)="handleShowBook(1)" class="body-reservation-card">
-        <img alt="" src="">
-        <div class="body-reservation-card-infos">
-          <div class="body-reservation-card-infos-title">
-            <span style="font-weight: bold; font-size: large;">Les misérables</span>
-            <span style="color:#BEC1C8;">Victor Hugo</span></div>
-          <div style="display: flex; gap: 1rem;">
-            <div style="display:flex; flex-direction: column;"><span style="color:#BEC1C8;">Date de retrait</span><span
-            >12 mai 2025</span></div>
-            <div style="display:flex; flex-direction: column;"><span
-              style="color:#BEC1C8;">Durée</span><span>2 semaines</span></div>
+  <div *ngSwitchCase="'Actives'" class="card-reservation-container">
+    <div (click)="handleShowBook(getBookFromId(loan.bookId))" *ngFor="let loan of loans()"
+    >
+      <div *ngIf="loan.loanStatus === 'ACCEPTED' || loan.loanStatus === 'BORROWED' || loan.loanStatus === 'OVERDUE'"
+           class="card-reservation">
+        <div class="header-reservation-card"><span>Réservation #{{ getRandomNumber(7842, 9856) }}</span><span
+          [ngClass]="{'accepted' : loan.loanStatus === 'ACCEPTED', 'overdue': loan.loanStatus === 'OVERDUE', 'borrowed': loan.loanStatus === 'BORROWED'}"
+          class="state-card">{{ getStateLoan(loan.loanStatus) }}</span>
+        </div>
+        <div class="body-reservation-card">
+          <img [src]="getBookImage(books()[loan.bookId].title)" alt="">
+          <div class="body-reservation-card-infos">
+            <div class="body-reservation-card-infos-title">
+              <span style="font-weight: bold; font-size: large;">{{ books()[loan.bookId].title }}</span>
+              <span style="color:#BEC1C8;">{{ books()[loan.bookId].author }}</span></div>
+            <div style="display: flex; gap: 1rem;">
+              <div style="display:flex; flex-direction: column;"><span
+                style="color:#BEC1C8;">Date de retrait</span><span
+              >{{ getReturnDate(loan) | date:'d MMMM yyyy':'':'fr' }}</span></div>
+              <div style="display:flex; flex-direction: column;"><span
+                style="color:#BEC1C8;">Durée</span><span>{{ loan.weeks }} semaines</span></div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="footer-reservation-card">
-        <button class="cancel-card-button">Annuler</button>
-        <button class="qr-code-card-button">Voir le QR Code</button>
+        <div class="footer-reservation-card">
+          <button class="cancel-card-button">Annuler</button>
+          <button class="qr-code-card-button">Voir le QR Code</button>
+        </div>
       </div>
     </div>
   </div>
-  <div *ngSwitchCase="'Historique'">
-    <div class="card-reservation">
-      <div class="header-reservation-card"><span>Réservation #2581</span><span
-        class="state-card-completed">Complétée</span></div>
-      <div (click)="handleShowBook(1)" class="body-reservation-card">
-        <img alt="" src="">
-        <div class="body-reservation-card-infos">
-          <div class="body-reservation-card-infos-title">
-            <span style="font-weight: bold; font-size: large;">Les misérables</span>
-            <span style="color:#BEC1C8;">Victor Hugo</span></div>
-          <div style="display: flex; gap: 1rem;">
-            <div style="display:flex; flex-direction: column;"><span style="color:#BEC1C8;">Date de retrait</span><span
-            >12 mai 2025</span></div>
-            <div style="display:flex; flex-direction: column;"><span
-              style="color:#BEC1C8;">Durée</span><span>2 semaines</span></div>
+  <div *ngSwitchCase="'Historique'" class="card-reservation-container">
+    <div (click)="handleShowBook(getBookFromId(loan.bookId))" *ngFor="let loan of loans()">
+      <div *ngIf="loan.loanStatus === 'RETURNED'" class="card-reservation">
+        <div class="header-reservation-card"><span>Réservation #{{ getRandomNumber(2479, 4389) }}</span><span
+          class="state-card returned">{{ getStateLoan(loan.loanStatus) }}</span></div>
+        <div class="body-reservation-card">
+          <img alt="" src="">
+          <div class="body-reservation-card-infos">
+            <div class="body-reservation-card-infos-title">
+              <span style="font-weight: bold; font-size: large;">{{ books()[loan.bookId].title }}</span>
+              <span style="color:#BEC1C8;">{{ books()[loan.bookId].author }}</span></div>
+            <div style="display: flex; gap: 1rem;">
+              <div style="display:flex; flex-direction: column;"><span
+                style="color:#BEC1C8;">Date de retrait</span><span
+              >{{ getReturnDate(loan) | date:'d MMMM yyyy':'':'fr' }}</span></div>
+              <div style="display:flex; flex-direction: column;"><span
+                style="color:#BEC1C8;">Durée</span><span>{{ loan.weeks }} semaines</span></div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="footer-reservation-card">
-        <button class="reserve-again-card-button">Réserver à nouveau</button>
+        <div class="footer-reservation-card">
+          <button class="reserve-again-card-button">Réserver à nouveau</button>
+        </div>
       </div>
     </div>
   </div>
