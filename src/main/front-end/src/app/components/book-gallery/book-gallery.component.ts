@@ -1,10 +1,11 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input, signal} from '@angular/core';
 import {CommonModule, NgForOf} from '@angular/common';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {faStar} from '@fortawesome/free-solid-svg-icons';
 import {BackToComponent} from '../../shared/components/back-to/back-to.component';
-import {Book, Category} from '../home/home.component';
-import {HomePage} from '../../app.component';
+import {Book, BookService, categories, Category} from '../../service/book/book.service';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {AppstateService, HomePage} from '../../service/app-state/appstate.service';
 
 
 @Component({
@@ -19,43 +20,35 @@ import {HomePage} from '../../app.component';
   styleUrl: './book-gallery.component.css'
 })
 export class BookGalleryComponent {
-  @Output() homePageEmitter = new EventEmitter<HomePage>();
   @Input() galleryType: string = "";
-  categories: Category[] = [
-    {id: 1, name: "Tous"},
-    {id: 2, name: "Classique"},
-    {id: 3, name: "Roman"},
-    {id: 4, name: "Science-fiction"},
-    {id: 5, name: "Philosophie"},
-    {id: 6, name: "Contes"},
-    {id: 7, name: "Stratégie"},
-  ]
-  books: Book[] = [
-    {id: 3, title: "Les misérables", author: "Victor Hugo", category: this.categories[1], reviewsRate: 4.8},
-    {id: 2, title: "L'étranger", author: "Albert Camus", category: this.categories[4], reviewsRate: 3.8},
-    {
-      id: 4,
-      title: "Le petit prince",
-      author: "Antoine de Saint-Exupéry",
-      category: this.categories[5],
-      reviewsRate: 4.8
-    },
-    {id: 1, title: "L'art de la guerre", author: "Sun Tzu", category: this.categories[6], reviewsRate: 4.8},
-  ]
-  filteredBooks: Book[] = this.galleryType === "Popularity" ? this.books.sort((a, b) => a.reviewsRate - b.reviewsRate) : this.books.sort(
+  books = signal<Book[]>([]);
+  filteredBooks: Book[] = this.galleryType === "Popularity" ? this.books().sort((a, b) => a.rating - b.rating) : this.books().sort(
     (a, b) => a.id - b.id)
   searchValue: string = "";
   protected readonly faStar = faStar;
+  protected readonly categories = categories;
 
-  handleBackToHome = () => {
-    const homePage: HomePage = {page: "Accueil", footerState: "Tabs", selectedBookId: 0}
-    this.homePageEmitter.emit(homePage);
+
+  constructor(private readonly bookService: BookService, private readonly appStateService: AppstateService) {
+    this.bookService.books$.pipe(takeUntilDestroyed()).subscribe(books => {
+      this.books.set(books);
+      this.filteredBooks = books;
+    })
   }
 
-  handleShowBook(event: number) {
+  getBookImage(title: string): string {
+    return this.bookService.getImageSrc(title);
+  }
+
+  handleBackToHome = () => {
+    const homePage: HomePage = {page: "Accueil", footerState: "Tabs", book: null}
+    this.appStateService.updateHomePage(homePage)
+  }
+
+  handleShowBook(book: Book) {
     const type = this.galleryType === "Popularity" ? "Popularity" : "New";
-    const homePage: HomePage = {page: "BookDetail", footerState: "Booking", selectedBookId: event, from: type}
-    this.homePageEmitter.emit(homePage);
+    const homePage: HomePage = {page: "BookDetail", footerState: "Booking", book: book, from: type}
+    this.appStateService.updateHomePage(homePage)
   }
 
   trackByFn(index: number, item: Category | Book): number {
@@ -68,13 +61,13 @@ export class BookGalleryComponent {
   }
 
   filterBooksBySearch() {
-    this.filteredBooks = this.books.filter((book) => book.title.toLowerCase().includes(this.searchValue.toLowerCase()) || book.author.toLowerCase().includes(this.searchValue.toLowerCase()));
+    this.filteredBooks = this.books().filter((book) => book.title.toLowerCase().includes(this.searchValue.toLowerCase()) || book.author.toLowerCase().includes(this.searchValue.toLowerCase()));
   }
 
   filterBooksByCategory(categoryId: number) {
     if (categoryId === 1)
-      this.filteredBooks = this.books;
+      this.filteredBooks = this.books();
     else
-      this.filteredBooks = this.books.filter((book) => book.category.id === categoryId);
+      this.filteredBooks = this.books().filter((book) => book.category === categories[categoryId].name);
   }
 }

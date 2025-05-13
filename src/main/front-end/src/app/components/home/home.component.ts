@@ -1,24 +1,13 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {faBook, faStar} from '@fortawesome/free-solid-svg-icons';
-import {faBell, faStar as farStar} from '@fortawesome/free-regular-svg-icons';
+import {faBell} from '@fortawesome/free-regular-svg-icons';
 import {CommonModule} from '@angular/common';
-import {gallery, HomePage} from '../../app.component';
-
-export interface Category {
-  id: number;
-  name: string;
-}
-
-export interface Book {
-  id: number;
-  title: string;
-  author: string;
-  category: Category;
-  reviewsRate: number;
-  imageUrl?: string;
-}
+import {Book, BookService, categories, Category} from '../../service/book/book.service';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {LoanService} from '../../service/loan/loan.service';
+import {AppstateService, gallery, HomePage} from '../../service/app-state/appstate.service';
 
 @Component({
   selector: 'app-home',
@@ -27,41 +16,37 @@ export interface Book {
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
-  @Output() homePageEmitter = new EventEmitter<HomePage>();
+export class HomeComponent implements OnInit {
   faBook = faBook;
   faBell = faBell;
   faStar = faStar;
-  farStar = farStar;
   searchValue: string = "";
-  categories: Category[] = [
-    {id: 1, name: "Tous"},
-    {id: 2, name: "Classique"},
-    {id: 3, name: "Roman"},
-    {id: 4, name: "Science-fiction"},
-    {id: 5, name: "Philosophie"},
-    {id: 6, name: "Contes"},
-    {id: 7, name: "Stratégie"},
-  ]
-  books: Book[] = [
-    {id: 3, title: "Les misérables", author: "Victor Hugo", category: this.categories[1], reviewsRate: 4.8},
-    {id: 2, title: "L'étranger", author: "Albert Camus", category: this.categories[4], reviewsRate: 3.8},
-    {
-      id: 4,
-      title: "Le petit prince",
-      author: "Antoine de Saint-Exupéry",
-      category: this.categories[5],
-      reviewsRate: 4.8
-    },
-    {id: 1, title: "L'art de la guerre", author: "Sun Tzu", category: this.categories[6], reviewsRate: 4.8},
-  ]
-  filteredBooks: Book[] = this.books;
+  books = signal<Book[]>([]);
+  activeCategory: number = 1;
+  filteredBooks: Book[] = [];
   protected readonly Math = Math;
   protected readonly Array = Array;
+  protected readonly categories = categories;
+
+  constructor(private readonly bookService: BookService, private readonly loanService: LoanService, private readonly appStateService: AppstateService) {
+    this.bookService.books$.pipe(takeUntilDestroyed()).subscribe(books => {
+      this.books.set(books);
+      this.filteredBooks = books;
+    })
+  }
+
+  ngOnInit() {
+    this.bookService.loadBooks();
+    this.loanService.loadLoans();
+  }
+
+  getBookImage(title: string): string {
+    return this.bookService.getImageSrc(title);
+  }
 
   showGallery(event: gallery) {
-    const homePage: HomePage = {page: event, footerState: "Tabs", selectedBookId: 0}
-    this.homePageEmitter.emit(homePage);
+    const homePage: HomePage = {page: event, footerState: "Tabs", book: null}
+    this.appStateService.updateHomePage(homePage)
   }
 
   OnUserSearch(event: Event) {
@@ -73,19 +58,25 @@ export class HomeComponent {
     return item.id;
   }
 
-  handleShowBook(event: number) {
-    const homePage: HomePage = {page: "BookDetail", footerState: "Booking", selectedBookId: event, from: "Accueil"}
-    this.homePageEmitter.emit(homePage);
+  handleShowBook(book: Book) {
+    const homePage: HomePage = {
+      page: "BookDetail",
+      footerState: "Booking",
+      book: book,
+      from: "Accueil"
+    }
+    this.appStateService.updateHomePage(homePage)
   }
 
   filterBooksByCategory(categoryId: number) {
+    this.activeCategory = categoryId;
     if (categoryId === 1)
-      this.filteredBooks = this.books;
+      this.filteredBooks = this.books();
     else
-      this.filteredBooks = this.books.filter((book) => book.category.id === categoryId);
+      this.filteredBooks = this.books().filter((book) => book.category === categories[categoryId].name);
   }
 
   filterBooksBySearch() {
-    this.filteredBooks = this.books.filter((book) => book.title.toLowerCase().includes(this.searchValue.toLowerCase()) || book.author.toLowerCase().includes(this.searchValue.toLowerCase()));
+    this.filteredBooks = this.books().filter((book) => book.title.toLowerCase().includes(this.searchValue.toLowerCase()) || book.author.toLowerCase().includes(this.searchValue.toLowerCase()));
   }
 }

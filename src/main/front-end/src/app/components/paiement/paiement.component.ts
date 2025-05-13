@@ -1,10 +1,13 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, signal} from '@angular/core';
 import {BackToComponent} from '../../shared/components/back-to/back-to.component';
 import {CardComponent} from '../../shared/components/card/card.component';
 import {BtnComponent} from '../../shared/components/btn/btn.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {faCreditCard} from '@fortawesome/free-solid-svg-icons';
-import {Booking, gallery, HomePage, paiementStep, tabs} from '../../app.component';
+import {Book, BookService} from '../../service/book/book.service';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {LoanService} from '../../service/loan/loan.service';
+import {AppstateService, Booking, HomePage} from '../../service/app-state/appstate.service';
 
 @Component({
   selector: 'app-paiement',
@@ -16,29 +19,48 @@ import {Booking, gallery, HomePage, paiementStep, tabs} from '../../app.componen
 })
 export class PaiementComponent {
   faCreditCard = faCreditCard;
-  @Input() bookId: number = 0;
-  @Output() homePageEmitter = new EventEmitter<HomePage>();
-  @Input() from: tabs | gallery | paiementStep = "Accueil";
-  @Input() booking: Booking = {
+  booking = signal<Booking>({
     dayWithdraw: new Date(),
     hourWithdraw: "",
     weekLocation: 0,
     amountPerWeek: 0,
-    bookId: 0,
+  })
+  books = signal<Book[]>([]);
+  homePage = signal<HomePage>({
+    page: "Accueil",
+    footerState: "Tabs",
+    book: null,
+    from: ""
+  })
+
+  constructor(private readonly bookService: BookService, private readonly loanService: LoanService, private readonly appStateService: AppstateService) {
+    this.bookService.books$.pipe(takeUntilDestroyed()).subscribe(books => this.books.set(books))
+    this.appStateService.homePage$.pipe(takeUntilDestroyed()).subscribe((homePage) => this.homePage.set(homePage))
+    this.appStateService.booking$.pipe(takeUntilDestroyed()).subscribe((booking) => this.booking.set(booking))
   }
+
+  getBookFromId(id: number) {
+    return this.books()[id];
+  }
+
 
   handlePaiement = () => {
     const homePage: HomePage = {
       page: 'Confirmation',
       footerState: "Tabs",
-      selectedBookId: this.bookId,
+      book: this.homePage().book,
     };
-    this.homePageEmitter.emit(homePage);
-    //add location
+    this.appStateService.updateHomePage(homePage);
+    this.loanService.addLoan(this.booking);
   }
 
   handleBackToHome = () => {
-    const homePage: HomePage = {page: "OrderDetails", footerState: "Tabs", selectedBookId: this.bookId, from: this.from}
-    this.homePageEmitter.emit(homePage);
+    const homePage: HomePage = {
+      page: "OrderDetails",
+      footerState: "Tabs",
+      book: this.appStateService.getCurrentHomePage().book,
+      from: this.appStateService.getCurrentHomePage().from
+    }
+    this.appStateService.updateHomePage(homePage);
   }
 }

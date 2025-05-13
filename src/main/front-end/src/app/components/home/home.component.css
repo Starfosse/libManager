@@ -178,3 +178,13 @@
 .card-informations-list div:first-child span:last-child {
   color: green;
 }
+
+img {
+  object-fit: cover;
+  object-position: center;
+}
+
+.active {
+  color: white;
+  background-color: var(--primary-blue);
+}

@@ -1,9 +1,11 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, signal} from '@angular/core';
 import {CardComponent} from '../../shared/components/card/card.component';
 import {BackToComponent} from '../../shared/components/back-to/back-to.component';
 import {BtnComponent} from '../../shared/components/btn/btn.component';
-import {Booking, gallery, HomePage, paiementStep, tabs} from '../../app.component';
 import {CommonModule} from '@angular/common';
+import {Book, BookService} from '../../service/book/book.service';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {AppstateService, Booking, HomePage} from '../../service/app-state/appstate.service';
 
 @Component({
   selector: 'app-order-details',
@@ -13,65 +15,95 @@ import {CommonModule} from '@angular/common';
   styleUrl: './order-details.component.css'
 })
 export class OrderDetailsComponent {
-  @Input() bookId: number = 0;
-  @Output() homePageEmitter = new EventEmitter<HomePage>();
-  @Output() bookingEmitter = new EventEmitter<Booking>();
-  @Input() from: tabs | gallery | paiementStep = "Accueil";
-  days: string[] = this.getNextFiveDays();
-  booking: Booking = {
+  books = signal<Book[]>([]);
+  days = this.getNextFiveDays();
+  booking = signal<Booking>({
     dayWithdraw: new Date(),
     hourWithdraw: "",
-    weekLocation: 0,
+    weekLocation: 1,
     amountPerWeek: 0,
-    bookId: 0,
+  });
+  homePage = signal<HomePage>({
+    page: "Accueil",
+    footerState: "Tabs",
+    book: null,
+    from: "Accueil"
+  })
+
+  constructor(private readonly bookService: BookService, private readonly appStateService: AppstateService) {
+    this.bookService.books$.pipe(takeUntilDestroyed()).subscribe(books => this.books.set(books))
+    this.appStateService.homePage$.pipe(takeUntilDestroyed()).subscribe((homePage) => this.homePage.set(homePage))
+    this.appStateService.booking$.pipe(takeUntilDestroyed()).subscribe((booking) => this.booking.set(booking))
+  }
+
+  getBookImage(title: string): string {
+    return this.bookService.getImageSrc(title);
   }
 
   getNextFiveDays() {
     const now = new Date();
     const nextFiveDays = [];
-    for (let i = 0; i < 4; i++) {
+    for (let i = 1; i < 6; i++) {
       const nextDay = new Date;
       nextDay.setDate(now.getDate() + i);
-      const formattedDate = nextDay.toLocaleDateString('fr-FR', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
+      const formattedDate = {
+        display: nextDay.toLocaleDateString('fr-FR', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        }),
+        value: nextDay.toISOString().split('T')[0]
+      }
       nextFiveDays.push(formattedDate);
     }
     return nextFiveDays;
   }
 
+  getBookFromId(id: number) {
+    return this.books()[id];
+  }
+
   handleWeekLocationChange(event: number) {
-    this.booking.weekLocation = event;
+    const booking = this.appStateService.getCurrentBooking();
+    booking.weekLocation = event
+    this.appStateService.updateBooking(booking);
   }
 
   handleTimeChange(event: Event) {
     const select = event.target as HTMLSelectElement;
-    this.booking.hourWithdraw = select.value;
+    const booking = this.appStateService.getCurrentBooking();
+    booking.hourWithdraw = select.value;
+    this.appStateService.updateBooking(booking);
   }
 
   handlePaiement = () => {
     const homePage: HomePage = {
       page: 'Paiement',
       footerState: "Tabs",
-      selectedBookId: this.bookId,
-      from: this.from,
+      book: this.homePage().book,
+      from: this.homePage().from,
     };
-    this.booking.bookId = this.bookId;
-    this.booking.amountPerWeek = 2.5;
-    this.bookingEmitter.emit(this.booking);
-    this.homePageEmitter.emit(homePage);
+    const booking = this.appStateService.getCurrentBooking();
+    booking.amountPerWeek = this.homePage().book!.price
+    this.appStateService.updateBooking(booking);
+    this.appStateService.updateHomePage(homePage);
   }
 
   handleDayChange(event: Event) {
     const select = event.target as HTMLSelectElement;
-    this.booking.dayWithdraw = new Date(select.value);
+    const booking = this.appStateService.getCurrentBooking();
+    booking.dayWithdraw = new Date(select.value);
+    this.appStateService.updateBooking(booking);
   }
 
   handleBackToHome = () => {
-    const homePage: HomePage = {page: "BookDetail", footerState: "Tabs", selectedBookId: this.bookId, from: this.from}
-    this.homePageEmitter.emit(homePage);
+    const homePage: HomePage = {
+      page: "BookDetail",
+      footerState: "Tabs",
+      book: this.homePage().book,
+      from: this.homePage().from,
+    }
+    this.appStateService.updateHomePage(homePage);
   }
 }

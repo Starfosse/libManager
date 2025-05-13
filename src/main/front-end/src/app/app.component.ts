@@ -12,26 +12,8 @@ import {BookDetailComponent} from './components/book-detail/book-detail.componen
 import {PaiementComponent} from './components/paiement/paiement.component';
 import {OrderDetailsComponent} from './components/order-details/order-details.component';
 import {ConfirmationComponent} from './components/confirmation/confirmation.component';
-
-export type tabs = "Accueil" | "Bibliothèque" | "Réservations" | "Profil" | ""
-export type gallery = "Popularity" | "New" | "BookDetail" | ""
-export type paiementStep = "OrderDetails" | "Paiement" | "Confirmation" | ""
-export type footerState = "Tabs" | "Booking"
-
-export interface HomePage {
-  page: tabs | gallery | paiementStep
-  footerState: footerState;
-  selectedBookId: number;
-  from?: tabs | gallery | paiementStep
-}
-
-export interface Booking {
-  dayWithdraw: Date;
-  hourWithdraw: string;
-  weekLocation: number;
-  amountPerWeek: number;
-  bookId: number;
-}
+import {AppstateService, Booking, HomePage} from './service/app-state/appstate.service';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
@@ -44,7 +26,7 @@ export class AppComponent {
   homePage: HomePage = {
     page: "Accueil",
     footerState: "Tabs",
-    selectedBookId: 0,
+    book: null,
     from: "Accueil"
   }
   booking: Booking = {
@@ -52,14 +34,9 @@ export class AppComponent {
     hourWithdraw: "",
     weekLocation: 0,
     amountPerWeek: 0,
-    bookId: 0,
   }
 
-  handleBooking(event: Booking) {
-    this.booking = event;
-  }
-
-  handleHomePage(event: HomePage) {
-    this.homePage = event;
+  constructor(private readonly appStateService: AppstateService) {
+    this.appStateService.homePage$.pipe(takeUntilDestroyed()).subscribe(homePage => this.homePage = homePage);
   }
 }

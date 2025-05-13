@@ -7,7 +7,7 @@
 <app-card>
   <div>QR Code de réservation</div>
   <div class="qr-code">
-    <img alt="" src="">
+    <img alt="" src="/qrcode.png">
     <span>Réservation #2581</span>
     <span style="color:var(--primary-blue)">Copier le code</span>
   </div>
@@ -15,17 +15,24 @@
 <app-card>
   <div>Détails de la réservation</div>
   <div class="reservation-details">
-    <img alt="" src="">
+    <img [src]="getBookImage(homePage().book!.title)" alt="">
     <div>
-      <span style="font-size: 1.1rem; font-weight:bold;">Les misérables</span><span
-      style="color:var(--primary-text-gray)">Victor Hugo</span>
+      <span style="font-size: 1.1rem; font-weight:bold;">{{ homePage().book?.title }}</span><span
+      style="color:var(--primary-text-gray)">{{ homePage().book?.author }}</span>
     </div>
   </div>
   <div class="reservation-details-time">
-    <div><span style="color:var(--primary-text-gray)">Date de retrait</span><span>12 Mai 2025, 14:00</span></div>
-    <div><span style="color:var(--primary-text-gray)">Durée</span><span>2 semaines</span></div>
-    <div><span style="color:var(--primary-text-gray)">Date de retour</span><span>26 Mai 2025</span></div>
-    <div><span style="color:var(--primary-text-gray)">Montant payé</span><span>5.00€</span></div>
+    <div><span
+      style="color:var(--primary-text-gray)">Date de retrait</span><span>{{ formatDate(booking().dayWithdraw) }}
+      , {{ booking().hourWithdraw }}</span></div>
+    <div><span style="color:var(--primary-text-gray)">Durée</span><span>{{ booking().weekLocation }} semaines</span>
+    </div>
+    <div><span
+      style="color:var(--primary-text-gray)">Date de retour</span><span>{{ formatDate(calculateReturnDate()) }}</span>
+    </div>
+    <div><span
+      style="color:var(--primary-text-gray)">Montant payé</span><span>{{ (booking().weekLocation * booking().amountPerWeek).toFixed(2) }}
+      €</span></div>
   </div>
 </app-card>
 <div class="instructions">

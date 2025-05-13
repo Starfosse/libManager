@@ -6,17 +6,18 @@
 <div>
   <h2>Catégories</h2>
   <div class="categories-row">
-    <div (click)="filterBooksByCategory(item.id)" *ngFor="let item of categories; trackBy: trackByFn" class="item">
-      {{ item.name }}
+    <div (click)="filterBooksByCategory(items.id - 1)" *ngFor="let items of categories; trackBy: trackByFn"
+         class="item">
+      {{ items.name }}
     </div>
   </div>
 </div>
 <div class="grid">
-  <div (click)="handleShowBook(item.id)" *ngFor="let item of filteredBooks; trackBy: trackByFn" class="card">
-    <img alt="" src="">
+  <div (click)="handleShowBook(item)" *ngFor="let item of filteredBooks; trackBy: trackByFn" class="card">
+    <img [src]="getBookImage(item.title)" alt="">
     <span> {{ item.title }}</span>
     <span style="color:gray; font-size:0.9rem;">{{ item.author }}</span>
     <span><fa-icon [icon]="faStar" style="color:#F6B400;"></fa-icon>
-      {{ item.reviewsRate }}</span>
+      {{ item.rating }}</span>
   </div>
 </div>

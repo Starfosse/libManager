@@ -12,8 +12,11 @@
 <div>
   <h2>Catégories</h2>
   <div class="categories-row">
-    <div (click)="filterBooksByCategory(item.id)" *ngFor="let item of categories; trackBy: trackByFn" class="item">
-      {{ item.name }}
+    <div (click)="filterBooksByCategory(item.id)" *ngFor="let item of categories; trackBy: trackByFn"
+    >
+      <div [ngClass]="{'active': item.id === activeCategory}" class="item">
+        {{ item.name }}
+      </div>
     </div>
   </div>
 </div>
@@ -23,14 +26,14 @@
     <div (click)="showGallery('Popularity')">Voir tout ⮕</div>
   </div>
 </div>
-<div class="grid-popularity">
-  <div (click)="handleShowBook(item.id)" *ngFor="let item of filteredBooks; trackBy: trackByFn"
+<div *ngIf="books().length > 0" class="grid-popularity">
+  <div (click)="handleShowBook(item)" *ngFor="let item of filteredBooks.slice(0, 4); trackBy: trackByFn"
        class="card-popularity">
-    <img alt="" src="">
+    <img [src]="getBookImage(item.title)" alt="">
     <span> {{ item.title }}</span>
     <span style="color:gray; font-size:0.9rem;">{{ item.author }}</span>
     <span><fa-icon [icon]="faStar" style="color:#F6B400;"></fa-icon>
-      {{ item.reviewsRate }}</span>
+      {{ item.rating }}</span>
   </div>
 </div>
 <div class="header-new">
@@ -38,8 +41,9 @@
   <div (click)="showGallery('New')">Voir tout ⮕</div>
 </div>
 <div class="list-new">
-  <div (click)="handleShowBook(item.id)" *ngFor="let item of filteredBooks; trackBy: trackByFn" class="card-new">
-    <img alt="" src="">
+  <div (click)="handleShowBook(item)" *ngFor="let item of filteredBooks.slice(0, 6); trackBy: trackByFn"
+       class="card-new">
+    <img [src]="getBookImage(item.title)" alt="">
     <span> {{ item.title }}</span>
     <span>{{ item.author }}</span>
   </div>
