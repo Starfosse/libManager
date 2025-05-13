@@ -5,21 +5,26 @@ import java.time.LocalDate;
 public class Loan {
     private Long id;
     private Long bookId;
-    private Long userId;
     private LocalDate loanDate;
-    private LocalDate returnDate;
-    private LocalDate effectiveReturnDate;
+    private int weeks;
     private LoanStatus loanStatus;
 
     public Loan() {
     }
 
-    public Loan(Long bookId, Long userId, LocalDate loanDate) {
+    public Loan(Long bookId, LocalDate loanDate, int weeks) {
         this.bookId = bookId;
-        this.userId = userId;
         this.loanDate = loanDate;
-        this.returnDate = loanDate.plusWeeks(1);
+        this.weeks = weeks;
         this.loanStatus = LoanStatus.BORROWED;
+    }
+
+    public Loan(Long id, Long bookId, LocalDate loanDate, int weeks, LoanStatus loanStatus) {
+        this.id = id;
+        this.bookId = bookId;
+        this.loanDate = loanDate;
+        this.weeks = weeks;
+        this.loanStatus = loanStatus;
     }
 
     public Long getId() {
@@ -38,14 +43,6 @@ public class Loan {
         this.bookId = bookId;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
     public LocalDate getLoanDate() {
         return loanDate;
     }
@@ -54,12 +51,12 @@ public class Loan {
         this.loanDate = loanDate;
     }
 
-    public LocalDate getReturnDate() {
-        return returnDate;
+    public int getWeeks() {
+        return weeks;
     }
 
-    public void setReturnDate(LocalDate returnDate) {
-        this.returnDate = returnDate;
+    public void setWeeks(int weeks) {
+        this.weeks = weeks;
     }
 
     public LoanStatus getLoanStatus() {
@@ -70,8 +67,13 @@ public class Loan {
         this.loanStatus = loanStatus;
     }
 
+    public LocalDate getReturnDeadline() {
+        return loanDate.plusWeeks(weeks);
+    }
+
     @Override
     public String toString() {
-        return "Loan{" + "id=" + id + ", bookId=" + bookId + ", userId=" + userId + ", loanDate=" + loanDate + ", " + "returnDate=" + returnDate + ", loanStatus=" + loanStatus + '}';
+        return "Loan{" + "id=" + id + ", bookId=" + bookId + ", loanDate=" + loanDate + ", " +
+                "weeks=" + weeks + ", returnDeadline=" + getReturnDeadline() + ", loanStatus=" + loanStatus + '}';
     }
 }
